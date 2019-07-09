@@ -29,12 +29,15 @@ def morse_dict_spaces():
 def translate_word(word, morse_dict):
     '''
     Input (String): Word
-    Return (String): Word converted into binary morse representation
+    Return (String): Word converted into binary Morse representation
     '''
     converted_word = []
     for char in word:
-        print(char)
-        converted_word.append(morse_dict[char])
+        try:
+            print(char)
+            converted_word.append(morse_dict[char])
+        except IndexError:
+            print(char, "is not in Morse dictionary. Character is skipped.")
     converted_word = '000'.join(converted_word)
     print(converted_word)
     return converted_word
