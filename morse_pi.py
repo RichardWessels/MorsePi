@@ -29,7 +29,7 @@ def morse_dict_spaces():
 def translate_word(word, morse_dict):
     '''
     Input (String): Word
-    Return (String): Word converted into binary Morse representation
+    Return (String): Word converted into Morse representation
     '''
     converted_word = []
     for char in word:
@@ -61,7 +61,7 @@ def run_code(e, base_unit):
 
 def main():
     rasp_setup()
-    base_unit = 0.5
+    base_unit = 1
     morse_dict = morse_dict_spaces()
 
     continue_main = 'y'
