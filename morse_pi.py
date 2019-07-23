@@ -78,7 +78,7 @@ def main():
 
         for elem in final_str:
             print('Showing:', elem)
-            run_code(elem, base_unit)
+            run_code(elem, base_unit, gpio_pin)
 
         print(final_str)
 
