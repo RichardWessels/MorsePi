@@ -9,13 +9,13 @@ morse_dict_raw = {
 '9': '----.', '.': '.-.-.-', ',': '--..--', '?': '..--..'
 }
 
-def rasp_setup():
+def rasp_setup(gpio_pin):
     '''
     Sets up Raspberry Pi
     '''
     gpio.setmode(gpio.BCM)
-    gpio.setup(15, gpio.OUT)
-    gpio.output(15, False)
+    gpio.setup(gpio_pin, gpio.OUT)
+    gpio.output(gpio_pin, False)
 
 def morse_dict_spaces():
     '''
@@ -42,25 +42,25 @@ def translate_word(word, morse_dict):
     print(converted_word)
     return converted_word
 
-def run_code(e, base_unit):
+def run_code(e, base_unit, gpio_pin):
     '''
     Input (String): Morse element
     Output: LED activation
     Return: None
     '''
     if e in ['.','-']:
-        gpio.output(15, True)
+        gpio.output(gpio_pin, True)
         if e == '.':
             time.sleep(base_unit)
         elif e == '-':
             time.sleep(base_unit*3)
-        gpio.output(15, False)
-
+        gpio.output(gpio_pin, False)
     else:
         time.sleep(base_unit)
 
 def main():
-    rasp_setup()
+    gpio_pin = 15
+    rasp_setup(gpio_pin)
     base_unit = 1
     morse_dict = morse_dict_spaces()
 
