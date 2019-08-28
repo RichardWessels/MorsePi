@@ -26,22 +26,6 @@ def morse_dict_spaces():
         new_dict[key] = '0'.join(morse_dict_raw[key])
     return new_dict
 
-def translate_word(word, morse_dict):
-    '''
-    Input (String): Word
-    Return (String): Word converted into Morse representation
-    '''
-    converted_word = []
-    for char in word:
-        try:
-            print(char)
-            converted_word.append(morse_dict[char])
-        except IndexError:
-            print(char, "is not in Morse dictionary. Character is skipped.")
-    converted_word = '000'.join(converted_word)
-    print(converted_word)
-    return converted_word
-
 def run_code(morse, base_unit, gpio_pin):
     '''
     Input (String): Morse element
@@ -63,7 +47,7 @@ def main():
     gpio_pin = 15
     rasp_setup(gpio_pin)
     base_unit = 1
-    morse_dict = morse_dict_spaces() # Add spacing
+    morse_dict = morse_dict_spaces()
 
     continue_main = 'y'
 
