@@ -42,43 +42,64 @@ def translate_word(word, morse_dict):
     print(converted_word)
     return converted_word
 
-def run_code(e, base_unit, gpio_pin):
+def run_code(morse, base_unit, gpio_pin):
     '''
     Input (String): Morse element
     Output: LED activation
     Return: None
     '''
-    if e in ['.','-']:
-        gpio.output(gpio_pin, True)
-        if e == '.':
+    for e in morse:
+        if e in ['.','-']:
+            gpio.output(gpio_pin, True)
+            if e == '.':
+                time.sleep(base_unit)
+            elif e == '-':
+                time.sleep(base_unit*3)
+            gpio.output(gpio_pin, False)
+        else:
             time.sleep(base_unit)
-        elif e == '-':
-            time.sleep(base_unit*3)
-        gpio.output(gpio_pin, False)
-    else:
-        time.sleep(base_unit)
 
 def main():
     gpio_pin = 15
     rasp_setup(gpio_pin)
     base_unit = 1
-    morse_dict = morse_dict_spaces()
+    morse_dict = morse_dict_spaces() # Add spacing
 
     continue_main = 'y'
 
     while continue_main == 'y':
-        message = input("Enter message: ").lower().split(" ")
-        words_defined = []
 
-        for word in message:
-            print("Word:", word)
-            words_defined.append(translate_word(word, morse_dict))
+        message = input("Enter message: ").lower()
 
-        final_str = '0000000'.join(words_defined)
+        # List of words
+        words_defined = message.split(" ")
 
-        for elem in final_str:
-            print('Showing:', elem)
-            run_code(elem, base_unit, gpio_pin)
+        final_str = ""
+
+        # Used to keep track of position in word to avoid extra spacing
+        word_count = 0
+
+        for word in words_defined:
+            print(f"Current word {word}")
+            word_count += 1
+
+            # Same function as word_count, just for letters...
+            letter_count = 0
+
+            for char in word:
+                print(f"Showing {char} as {morse_dict[char]}")
+                letter_count += 1
+                run_code(morse_dict[char], base_unit, gpio_pin)
+                final_str += morse_dict[char]
+
+                if letter_count != len(word):
+                    run_code('000', base_unit, gpio_pin)
+                    final_str += '000'
+                    
+            if word_count != len(words_defined):
+                print("Running word space...")
+                run_code('0000000', base_unit, gpio_pin)
+                final_str += '0000000'
 
         print(final_str)
 
@@ -86,9 +107,18 @@ def main():
         
     gpio.cleanup()
 
-
 if __name__ == "__main__":
     main()
 
 
-# Features to add: Word and letter print
+
+
+
+
+
+
+
+
+
+
+    
